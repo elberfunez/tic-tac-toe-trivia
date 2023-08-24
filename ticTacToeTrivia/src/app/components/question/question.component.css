@@ -1,0 +1,10 @@
+.correct-ans {
+  background-color: rgb(20, 221, 20);
+}
+
+.incorrect-ans {
+  background-color: rgb(238, 43, 43);
+}
+.answer-btn {
+  background-color: black;
+}

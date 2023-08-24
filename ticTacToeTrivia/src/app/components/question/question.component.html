@@ -2,7 +2,9 @@
   <mat-card class="border w-50 mx-auto d-flex justify-content-center">
     <div class="d-flex justify-content-center header">
       <mat-card-header>
-        <mat-card-title>Player: {{ players[currPlayerIndex].playerName }}</mat-card-title>
+        <mat-card-title
+          >Player: {{ players[currPlayerIndex].playerName }}</mat-card-title
+        >
       </mat-card-header>
       <div class="ml-auto score">
         <mat-card-header>
@@ -12,21 +14,31 @@
     </div>
     <div class="d-flex justify-content-center question">
       <mat-card-content>
-
-        <p>{{ questions[curQuestionIndex].questionNumber }}.{{ questions[curQuestionIndex].questionString }}</p>
+        <p>
+          {{ questions[curQuestionIndex].questionNumber }}.{{
+            questions[curQuestionIndex].questionString
+          }}
+        </p>
       </mat-card-content>
     </div>
-    <div class="d-flex justify-content-center answers">
+    <div class="answers">
       <mat-card-actions>
         <button
           mat-raised-button
-          color="primary"
-          class="mr-1"
+          [color]="answer.color"
+          [disabled]="answer.disabled"
+          class="answer-btn mr-1 w-100"
           (click)="selectAnswer(answer)"
-          *ngFor="let answer of questions[curQuestionIndex].answerChoices">
-          {{ answer }}
+          *ngFor="let answer of questions[curQuestionIndex].answerChoices"
+        >
+          {{ answer.answerString }}
         </button>
       </mat-card-actions>
+    </div>
+    <div class="result d-flex justify-content-center" *ngIf="showAnswerResult">
+      <h2 [style.color]="isCorrectAnswer ? 'green' : 'red'">
+        {{ isCorrectAnswer ? "CORRECT!" : "INCORRECT :(" }}
+      </h2>
     </div>
   </mat-card>
 </div>
