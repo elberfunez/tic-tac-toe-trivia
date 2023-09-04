@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Answer } from 'src/app/interfaces/answer';
 import { Player } from 'src/app/interfaces/player';
 import { Question } from 'src/app/interfaces/question';
+import { PlayerService } from 'src/app/services/player.service';
 
 @Component({
   selector: 'app-question',
@@ -9,6 +11,10 @@ import { Question } from 'src/app/interfaces/question';
   styleUrls: ['./question.component.css']
 })
 export class QuestionComponent implements OnInit{
+
+  constructor(private playerServ: PlayerService, private router: Router) {
+
+  }
 
   questions: Question[] = [
     {
@@ -63,22 +69,14 @@ export class QuestionComponent implements OnInit{
     color: '',
     disabled: false
   };
-  players: Player[] = [
-    {
-      playerName: 'Elber',
-      score: 0
-    },
-    {
-      playerName: 'Eddy',
-      score: 0
-    }
-  ];
+  players: Player[] = [];
   currPlayerIndex: number = 0;
   isCorrectAnswer: boolean | null = null;
   showAnswerResult: boolean = false;
   displayGameResults: boolean = false;
 
   ngOnInit(): void {
+    this.players = this.playerServ.getAllPlayers();
   }
 
   selectAnswer(answerSelected: Answer) : void {
@@ -95,31 +93,34 @@ export class QuestionComponent implements OnInit{
       currQuestionObj.answerChoices
       this.isCorrectAnswer = true;
       this.players[this.currPlayerIndex].score++;
-      console.log("correct");
+
     }
     else {
       answerSelected.color = 'warn';
       this.isCorrectAnswer = false;
-      console.log("incorrect");
     }
+
     this.disableAnswerChoices(currQuestionObj, answerSelected);
     setTimeout(() => {
-      this.isCorrectAnswer = null;
+
       this.showAnswerResult= false;
       currQuestionObj.correctAnswer.color = 'primary';
       this.enableAnswerChoices(currQuestionObj);
       this.toggleNextQuestion();
       this.toggleNextPlayer();
-
+      (!this.isCorrectAnswer) ? null : this.router.navigate(['/gameboard']);
+      this.isCorrectAnswer = null;
     }, 2000);
 
 
   }
   toggleNextPlayer(): void {
     this.currPlayerIndex++;
+    let currentPlayer = this.players[this.currPlayerIndex];
     if (this.currPlayerIndex >= this.players.length) {
       this.currPlayerIndex = 0;
     }
+    this.playerServ.updateCurrentPlayer(currentPlayer);
   }
 
   toggleNextQuestion(): void {

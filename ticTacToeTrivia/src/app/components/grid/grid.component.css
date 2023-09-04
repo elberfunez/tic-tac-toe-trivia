@@ -1,0 +1,21 @@
+table {
+  border-collapse: collapse;
+  margin: 0 auto;
+}
+td {
+  width: 100px;
+  height: 100px;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 36px;
+  border: 1px solid #000;
+  cursor: pointer;
+}
+.winning-cell {
+  background-color: rgba(73, 242, 39, 0.409); /* You can choose any highlighting style you prefer */
+}
+
+.fade-out {
+  opacity: 0;
+  transition: opacity 2s ease-in-out;
+}

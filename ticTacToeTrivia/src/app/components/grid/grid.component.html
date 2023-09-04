@@ -1,0 +1,16 @@
+<table>
+  <tr *ngFor="let row of gameBoard; let rowIndex = index">
+    <td class="cell" (click)="cellClickable ? markSelection(rowIndex, 0) : null" [style.color]="colorMatrix[rowIndex][0]">{{gameBoard[rowIndex][0]}}</td>
+    <td class="cell" (click)="cellClickable ? markSelection(rowIndex, 1) : null" [style.color]="colorMatrix[rowIndex][1]">{{gameBoard[rowIndex][1]}}</td>
+    <td class="cell" (click)="cellClickable ? markSelection(rowIndex, 2) : null" [style.color]="colorMatrix[rowIndex][2]">{{gameBoard[rowIndex][2]}}</td>
+  </tr>
+</table>
+
+
+
+<div class="alert alert-info fade-out" role="alert"
+[ngClass]="{'alert alert-info fade-out': showSelectionAlert}">
+  {{alertMsg}}
+</div>
+
+<button class="button btn-primary" (click)="clearGameBoard()">RESET</button>
